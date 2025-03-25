@@ -1,0 +1,31 @@
+@startuml
+actor User
+participant "System" as System
+participant "Payment System" as Payment
+
+User -> System: Open website
+User -> System: Register/Login
+System -> System: Verify login details
+alt Login failed
+    System -> User: Request login again
+else Login success
+    User -> System: Search movie
+    alt Movie found
+        System -> System: Check user subscription
+        alt Subscription valid
+            System -> User: Show movie player
+        else Subscription invalid
+            System -> User: Request subscription
+            User -> System: Subscription register
+            System -> Payment: Process Payment
+            alt Payment success
+                System -> User: Show movie player
+            else Payment failed
+                System -> User: You can't watch this movie
+            end
+        end
+    else Movie not found
+        System -> User: Notify no results
+    end
+end
+@enduml

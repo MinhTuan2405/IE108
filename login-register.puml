@@ -1,0 +1,31 @@
+@startuml
+actor User
+participant "System" as System
+
+User -> System: Open website
+User -> System: Had account?
+alt User has an account
+    User -> System: Enter username, password
+    System -> System: Validate credentials
+    alt Login successful
+        System -> User: Website display
+    else Login failed
+        System -> User: Request re-enter credentials
+    end
+else User does not have an account
+    System -> User: Display account registration form
+    User -> System: Enter username, email, password
+    System -> System: Save data
+    System -> System: Email verification
+    alt Verification successful
+        System -> System: Validate credentials
+        alt Validation successful
+            System -> User: Website display
+        else Validation failed
+            System -> User: Request re-enter credentials
+        end
+    else Verification failed
+        System -> User: Request email verification again
+    end
+end
+@enduml
