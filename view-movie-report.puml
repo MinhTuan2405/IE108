@@ -1,0 +1,36 @@
+@startuml
+
+actor Administrator
+participant System
+participant Database
+
+Administrator -> System: Open website
+System -> Administrator: Show login page
+Administrator -> System: Enter credentials
+System -> Database: Verify login
+Database -> System: Return result
+alt Login failed
+    System -> Administrator: Show error message
+    Administrator -> System: Retry login
+else Login successful
+    System -> Administrator: Show dashboard
+    Administrator -> System: Access view movie performance feature
+    System -> Administrator: Show viewing options
+    
+    Administrator -> System: Choose viewing option
+    alt View overview report
+        System -> Database: Generate overview report
+        Database -> System: Return report data
+        System -> Administrator: Display overview report
+    else View one movie report
+        System -> Database: Fetch movie list
+        Database -> System: Return list
+        System -> Administrator: Show movie list
+        Administrator -> System: Select a movie
+        System -> Database: Generate selected movie report
+        Database -> System: Return report data
+        System -> Administrator: Display movie report
+    end
+end
+
+@enduml

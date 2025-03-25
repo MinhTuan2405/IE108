@@ -1,0 +1,21 @@
+@startuml
+actor User
+actor Admin
+participant "System" as System
+participant "AI Recommendation System" as AI
+
+Admin -> System: Open website
+Admin -> System: Login/Register
+System -> System: Verify login details
+alt Login successful
+    Admin -> System: Pick a movie to promote
+    System -> System: Show promoted movie on website banner
+    System -> AI: Set Movie Priority
+else Login failed
+    System -> Admin: Request correct details
+end
+
+User -> System: Looking for movie
+System -> User: Promoted movie appears first
+
+@enduml

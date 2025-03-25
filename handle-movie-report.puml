@@ -1,0 +1,36 @@
+@startuml
+
+actor Moderator
+participant System
+participant Database
+
+Moderator -> System: Open website
+System -> Moderator: Show login page
+Moderator -> System: Enter credentials
+System -> Database: Verify login
+Database -> System: Return result
+alt Login failed
+    System -> Moderator: Show error message
+    Moderator -> System: Retry login
+else Login successful
+    System -> Moderator: Show dashboard
+    Moderator -> System: Get movie report from user
+    System -> Database: Retrieve report details
+    Database -> System: Return report
+    System -> Moderator: Display report
+    
+    Moderator -> System: Validate report
+    alt Report is invalid
+        System -> Moderator: Reject report
+    else Report is valid
+        Moderator -> System: Check if movie should be deleted
+        alt Delete movie
+            System -> Database: Remove movie from records
+            Database -> System: Confirm deletion
+        else Modify movie
+            System -> Moderator: Allow movie modification
+        end
+    end
+end
+
+@enduml

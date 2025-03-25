@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant "System" as System
+participant "AI Recommendation System" as AI
+
+User -> System: Open website
+User -> System: Login
+System -> System: Verify login details
+alt Login successful
+    System -> System: Collect user data (watch history, ratings, etc.)
+    System -> AI: Process user data
+    AI -> AI: Run recommendation algorithm
+    AI -> System: Return recommended movies
+    System -> User: Display recommended movies
+    User -> System: Interact with recommendations (select, skip, etc.)
+    System -> System: Collect feedbacks
+    System -> System: Store feedbacks in database
+    System -> AI: Update recommendation model
+    AI -> AI: Adjust for future recommendations
+else Login failed
+    System -> User: Request correct login details
+end
+@enduml

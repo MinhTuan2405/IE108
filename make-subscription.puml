@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant "System" as System
+participant "Payment System" as Payment
+
+User -> System: Login
+System -> System: Verify login details
+alt Login failed
+    System -> User: Request correct login details
+else Login successful
+    User -> System: Subscription management
+    User -> System: Select subscription
+    System -> User: Show subscription details
+    User -> System: Confirm subscription
+    User -> System: Enter payment details
+    System -> Payment: Create payment request
+    Payment -> Payment: Process payment
+    alt Payment success
+        Payment -> System: Payment succeeded
+        System -> System: Update user’s subscription info
+        System -> User: Subscription registration result
+    else Payment failed
+        Payment -> System: Payment failed
+        System -> User: Show payment error
+    end
+end
+@enduml

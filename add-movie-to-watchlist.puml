@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant "System" as System
+
+User -> System: Open website
+User -> System: Login/Register
+System -> System: Verify login details
+alt Login failed
+    System -> User: Request correct login details
+else Login successful
+    System -> System: Check subscription status
+    alt User has subscription
+        User -> System: Find a movie to add
+        User -> System: Add to watchlist
+        System -> System: Store data in database
+        alt New episode coming?
+            System -> User: Notify user
+        end
+    else No subscription
+        System -> User: Ask to subscribe
+    end
+end
+@enduml

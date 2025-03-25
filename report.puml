@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant "System" as System
+participant "Moderator" as Moderator
+
+User -> System: Select movie or rating to report
+System -> User: Display report form with reasons
+User -> System: Select reason and optionally add comments
+User -> System: Submit report form
+System -> System: Validate report details
+alt Report is valid
+    System -> System: Save report to database
+    System -> Moderator: Notify moderator about new report
+else Report is invalid
+    System -> User: Request corrections
+end
+@enduml

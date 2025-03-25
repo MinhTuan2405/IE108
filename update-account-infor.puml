@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant "System" as System
+
+User -> System: Open website
+User -> System: Login/Register
+System -> System: Verify login details
+alt Login successful
+    User -> System: Go to personal account page
+    User -> System: Select fields to update
+    User -> System: Enter new information
+    System -> System: Validate inputs
+    alt Valid inputs
+        User -> System: Submit new information
+        System -> System: Save updated information to database
+        System -> User: Reload page
+    else Invalid inputs
+        System -> User: Display error message
+    end
+else Login failed
+    System -> User: Request correct login details
+end
+@enduml

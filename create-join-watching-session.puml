@@ -1,0 +1,51 @@
+@startuml
+
+actor User
+actor OtherViewer
+participant System
+participant Database
+
+User -> System: Open website
+System -> User: Show login page
+User -> System: Enter credentials
+System -> Database: Verify login
+Database -> System: Return result
+System -> User: Login success/fail
+
+User -> System: Check subscription
+System -> Database: Get subscription status
+Database -> System: Return status
+alt Subscription valid
+    User -> System: Choose movie
+    System -> System: Generate sharing URL
+    User -> OtherViewer: Share URL
+else No subscription
+    User -> System: Subscribe
+    System -> Database: Register subscription
+    Database -> System: Return success/fail
+    alt Subscription success
+        User -> System: Choose movie
+        System -> System: Generate sharing URL
+        User -> OtherViewer: Share URL
+    else Subscription failed
+        System -> User: Show error message
+    end
+end
+
+OtherViewer -> System: Access shared URL
+System -> Database: Check subscription
+Database -> System: Return status
+alt Subscription valid
+    System -> OtherViewer: Join watch-along room
+else No subscription
+    OtherViewer -> System: Subscribe
+    System -> Database: Register subscription
+    Database -> System: Return success/fail
+    alt Subscription success
+        System -> OtherViewer: Join watch-along room
+    else Subscription failed
+        System -> OtherViewer: Show error message
+    end
+end
+
+@enduml

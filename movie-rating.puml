@@ -1,0 +1,54 @@
+@startuml
+
+actor Moderator
+participant System
+participant Database
+
+Moderator -> System: Open website
+System -> Moderator: Show login page
+Moderator -> System: Enter credentials
+System -> Database: Verify login
+Database -> System: Return result
+alt Login failed
+    System -> Moderator: Show error message
+    Moderator -> System: Retry login
+else Login successful@startuml
+actor User
+participant "System" as System
+
+User -> System: Complete watching a movie
+System -> System: Enable rating feature
+
+User -> System: Open rating form
+User -> System: Select scores and write a review
+User -> System: Submit rating form
+
+System -> System: Validate form
+alt Form is valid
+    System -> System: Save to database
+    System -> System: Update movie's averaging scores
+    System -> User: Display successful message
+else Form is invalid
+    System -> User: Request correction
+end
+
+@enduml
+
+    System -> Moderator: Show movie upload form
+    Moderator -> System: Enter movie details
+    System -> Database: Validate movie details
+    Database -> System: Return validation result
+    alt Details invalid
+        System -> Moderator: Show error message
+        Moderator -> System: Re-enter movie details
+    else Details valid
+        Moderator -> System: Upload movie file
+        System -> Database: Store movie details
+        Database -> System: Confirm storage
+        System -> Moderator: Notify upload success
+        System -> User: Notify new movie available
+    end
+end
+
+@enduml
+
